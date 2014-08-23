@@ -24,13 +24,23 @@ def process_project_to_get_votes(projects):
         count += 1
     return count, up, down
 
+def get_project_list(projects):
+    returned = []
+    for p in projects:
+        tag = p.select('div.brief > div.tags')[0].text.strip()
+        text = p.select('h2.summary > a')[0].text
+        #print tag, text
+        returned.append((tag, text))
+    return returned
+
 def submit_project_data(id, url):
     projects = get_projects_from_url(id, url)
     if(projects == None):
         data = { 'error' : True }
     else:
         count, up, down = process_project_to_get_votes(projects)
-        data = { 'num_projects' : count, 'up' : up, 'down' : down, 'url' : url}
+        project_list = get_project_list(projects)
+        data = { 'num_projects' : count, 'up' : up, 'down' : down, 'url' : url, 'projects' : project_list }
     j = json.dumps(data)
     print j
 
