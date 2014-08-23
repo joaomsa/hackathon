@@ -23,11 +23,29 @@ def process_project_to_get_votes(projects):
         count += 1
     return count, up, down
 
+def process_text(text):
+    tokens = text.split(',')
+    if len(tokens) < 2: return text
+
+    c = 0
+    returned = tokens[0]
+
+    while len(returned) < 75:
+        if len(tokens) == c: return text
+
+        c += 1
+        returned += "," + tokens[c]
+
+    return returned + "."
+
+
 def get_project_list(projects):
     returned = []
     for p in projects:
         tag = p.select('div.brief > div.tags')[0].text.strip()
         text = p.select('h2.summary > a')[0].text
+
+        text = process_text(text)
         #print tag, text
         returned.append((tag, text))
     return returned
@@ -53,3 +71,9 @@ def get_project_data(id):
         return submit_project_data(id, dic[id])
     except KeyError:
         return None
+
+if __name__ == "__main__":
+    from pprint import pprint
+    pprint(get_project_data("1511105"))
+    print 10 * "#"
+    pprint(get_project_data("1511086"))
