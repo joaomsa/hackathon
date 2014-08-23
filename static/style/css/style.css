@@ -6174,12 +6174,8 @@ button.close {
 .candidato-cell,
 .candidato-search {
   display: table-cell;
-  padding: 0 10px;
-  background-color: gray;
+  padding: 5px 10px;
   width: 100px;
-}
-.candidato-search {
-  background-color: salmon;
 }
 .candidate-profile {
   height: 54px;
@@ -6195,6 +6191,7 @@ button.close {
 }
 .profiles.well .media-list {
   display: table-layout;
+  border-collapse: collapse;
 }
 .profiles.well .media {
   display: table-row;
@@ -6209,13 +6206,25 @@ button.close {
 .profiles.well .media-object {
   padding-right: 12px;
 }
+.profiles.well .media:hover {
+  cursor: pointer;
+}
+.profiles.well .media:hover .candidate-profile {
+  border: 2px solid #428bca;
+}
 .profiles.well .media-body {
   font-size: 12px;
 }
-.profiles.well .media-selected * {
-  background-color: red;
+.candidato-tbl {
+  position: relative;
 }
-.profiles.well .media-hovered * {
+.candidato-tbl .candidate-profile {
+  margin: auto;
   cursor: pointer;
-  background-color: blue;
+}
+.candidato-tbl .candidate-profile .candidate-profile {
+  border: 2px solid #d9534f;
+}
+.candidato-tbl .nome {
+  text-align: center;
 }

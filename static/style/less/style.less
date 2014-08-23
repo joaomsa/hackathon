@@ -1,6 +1,5 @@
 @import "../../bower_components/bootstrap/less/bootstrap.less";
 
-
 .candidato-tbl {
     display: table;
     width: 100%;
@@ -14,16 +13,12 @@
 
 .candidato-cell {
     display: table-cell;
-    padding: 0 10px;
-    background-color: gray;
+    padding: 5px 10px;
     width: 100px;
 }
 
 .candidato-search {
     &:extend(.candidato-cell);
-
-    //height: 100%;
-    background-color: salmon;
 }
 
 .candidate-profile {
@@ -41,6 +36,7 @@
 
     .media-list {
         display: table-layout;
+        border-collapse: collapse;
     }
 
     .media {
@@ -59,15 +55,34 @@
         padding-right: @padding-base-horizontal;
     }
 
+    .media:hover {
+        cursor: pointer;
+        .candidate-profile {
+            border: 2px solid @brand-primary;
+        }
+    }
+
     .media-body {
         font-size: @font-size-small;
     }
+}
 
-    .media-selected * {
-        background-color: red;
-    }
-    .media-hovered * {
+.candidato-tbl {
+    position: relative;
+
+    .candidate-profile {
+        margin: auto;
         cursor: pointer;
-        background-color: blue;
+        .candidate-profile {
+            border: 2px solid @brand-danger;
+        }
+    }
+
+    .candidate-profile:hover {
+
+    }
+
+    .nome {
+        text-align: center;
     }
 }
