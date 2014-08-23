@@ -49,16 +49,37 @@
               <div class="candidato-cell bio" ng-repeat="c in candidates">
                 <p>
                   <strong>
-                    {{ c.bio["reeleicao"] ?
-                      "Atual " + c.bio['cargo'] + " do " + c.bio['estado'] :
-                      "Desafiante to titulo de " + c.bio['cargo'] + " do " +  c.bio['estado'] }}
+                    {{ c.bio["reeleicao"] === "true" ?
+                      "Atual Presidente" :
+                      "Compete pelo titulo de Presidente" }}
                   </strong>
                 </p>
+
+                <p ng-show="c.bio['miniBio']">
+                  <h6>Bio</h6>
+                  <span>
+                    {{ c.bio['miniBio'] }}
+                  <span>
+                </p>
+
+                <p ng-show="c.bio['cargos']">
+                  <h6>Cargos</h6>
+                  <span>
+                    {{ c.bio['cargos'] }}
+                  <span>
+                </p>
+
                 <p ng-show="c.bio['bancadas']">
                   <span>
                     Representando a galera: {{ c.bio['bancadas'] }}
                   <span>
                 </p>
+
+                <p ng-show="c.projetos">
+                  <span>
+                  </span>
+                </p>
+
               </div>
             </div>
 
