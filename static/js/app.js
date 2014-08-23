@@ -58,10 +58,8 @@
                 return false;
             };
 
-            var actuallyAdd = function(id){
-                    selected.push({
-                        'id': id,
-                    });
+            var actuallyAdd = function(data){
+                    selected.push(data);
                     $rootScope.$emit('candidate.changed');
             };
 
@@ -70,19 +68,18 @@
                     return;
 
                 if (cached[id] !== undefined){
-                    actuallyAdd(id, cached[id]);
+                    actuallyAdd(cached[id]);
                 } else {
-                    cached[id] = {};
-                    actuallyAdd(id, cached[id]);
-                    /*
-                    $http.get("/candidate/" + id)
-                        .success(function(data, status, headers, config, statusText){
-                            cached[id] = data;
-                            actuallyAdd(id, cached[id]);
-                        }).error(function(data, status, headers, config, statusText){
-                            console.log(status, statusText);
-                        });
-                    */
+                    $http.get("/candidatura", {
+                        params: {'id': id}
+                    }).success(function(data, status, headers, config, statusText){
+                        cached[id] = {}
+                        cached[id].id = id
+                        cached[id].candidatura = data
+                        actuallyAdd(cached[id]);
+                    }).error(function(data, status, headers, config, statusText){
+                        console.log(status, statusText);
+                    });
                 }
             };
 
