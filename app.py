@@ -10,15 +10,6 @@ app = Flask(__name__)
 app.config["PROPAGATE_EXCEPTIONS"] = True
 app.config["pg_dsn"] = "dbname='transparencia' user='joaosa' host='ec2-54-191-195-234.us-west-2.compute.amazonaws.com' password='123456' port=19000"
 
-@app.route("/projeto")
-def projeto():
-    id = request.args.get('id')
-    with psycopg2.connect(app.config['pg_dsn']) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT data FROM vote_na_web WHERE id = %s", [id])
-            row = cur.fetchall()
-            return Response(row[0], mimetype='application/json')
-
 @app.route("/search")
 def search_name():
     name = request.args.get('nome')
@@ -30,7 +21,22 @@ def search_name():
             return json.dumps(results)
 
 @app.route("/candidatura")
-def candidatura():
+def canditadura():
+    cid = request.args.get('id')
+    data = { "projeto": projeto(cid),
+            "bio": bio(cid),
+            "historico": historico(cid)
+    }
+    return Response(json.dumps(data), mimetype='application/json')
+
+def projeto(id):
+    with psycopg2.connect(app.config['pg_dsn']) as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT data FROM vote_na_web WHERE id = %s", [id])
+            row = cur.fetchall()
+            return json.loads(row[0][0])
+
+def bio(id):
     id = request.args.get('id')
     api_url = "http://api.transparencia.org.br/api/v1/candidatos"
     parameters = {}
@@ -45,11 +51,9 @@ def candidatura():
     for key in response:
         if key in ['apelido','nome','miniBio','partido','cargo','reeleicao','bancadas','cargos', 'id', 'foto','estado']:
             result[key] = response[key]
-    return Response(json.dumps(result), mimetype='application/json')
+    return result
 
-@app.route("/historico")
-def historico():
-    id = request.args.get('id')
+def historico(id):
     api_url = "http://api.transparencia.org.br/api/v1/candidatos"
     parameters = {}
     header = {"APP-token": APP_TOKEN}
@@ -86,8 +90,8 @@ def historico():
     else:
         faltas_com = None
         faltas_plen = None
-    return Response(json.dumps({'candidaturas': candidaturas, 'processos': processos,
-                            'faltas_plen': faltas_plen, 'faltas_com': faltas_com}), mimetype='application/json')
+    return { 'candidaturas': candidaturas, 'processos': processos,
+            'faltas_plen': faltas_plen, 'faltas_com': faltas_com }
 
 
 @app.route("/", defaults={"path": "index.html"})
