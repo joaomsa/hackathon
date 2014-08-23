@@ -16,7 +16,14 @@ def search_name():
     name = request.args.get('nome')
     with psycopg2.connect(app.config['pg_dsn']) as conn:
         with conn.cursor() as cur:
-            cur.execute("select similarity(%s, data->>'nome') as sim , data->>'nome' as nome , data->>'id' as id, data->>'foto' as foto from candidatos_json order by sim desc limit 10", [name])
+            cur.execute("""
+                    select
+                        similarity(%s, data->>'nome') as sim ,
+                        data->>'nome' as nome , data->>'id' as id,
+                        data->>'foto' as foto
+                    from candidatos_json
+                    where data->>'cargo' = 'Presidente'
+                    order by sim desc limit 10""", [name])
             rows = cur.fetchall()
             results = [{'id': row[2], 'nome': row[1], 'foto': row[3]} for row in rows]
             return json.dumps(results)
