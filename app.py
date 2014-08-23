@@ -35,7 +35,7 @@ def candidatura():
     response = json.loads(r.text)
     result = {}
     for key in response:
-        if key in ['apelido','nome','miniBio','partido','cargo','reeleicao','bancadas','cargos']:
+        if key in ['apelido','nome','miniBio','partido','cargo','reeleicao','bancadas','cargos', 'id', 'foto']:
             result[key] = response[key]
     return Response(json.dumps(result), mimetype='text/json')
 
