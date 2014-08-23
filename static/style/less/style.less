@@ -1,5 +1,15 @@
 @import "../../bower_components/bootstrap/less/bootstrap.less";
 
+@brand-primary: red;
+
+body {
+    background-color: @gray-darker;
+    color: @gray-light;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: @brand-primary;
+}
+
 .candidato-tbl {
     display: table;
     width: 100%;
@@ -72,14 +82,11 @@
 
     .candidate-profile {
         margin: auto;
-        cursor: pointer;
-        .candidate-profile {
-            border: 2px solid @brand-danger;
-        }
     }
 
     .candidate-profile:hover {
-
+        cursor: pointer;
+        border: 2px solid @brand-danger;
     }
 
     .nome {

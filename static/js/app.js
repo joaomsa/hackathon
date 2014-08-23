@@ -71,9 +71,8 @@
                     $http.get("/candidatura", {
                         params: {'id': id}
                     }).success(function(data, status, headers, config, statusText){
-                        cached[id] = {}
+                        cached[id] = data
                         cached[id].id = id
-                        cached[id].candidatura = data
                         actuallyAdd(cached[id]);
                     }).error(function(data, status, headers, config, statusText){
                         console.log(status, statusText);
