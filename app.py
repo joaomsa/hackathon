@@ -17,7 +17,7 @@ def projeto():
         with conn.cursor() as cur:
             cur.execute("SELECT data FROM vote_na_web WHERE id = %s", [id])
             row = cur.fetchall()
-            return Response(row[0], mimetype='text/json') 
+            return Response(row[0], mimetype='text/json')
 
 @app.route("/search")
 def search_name():
@@ -43,7 +43,7 @@ def candidatura():
     response = json.loads(r.text)
     result = {}
     for key in response:
-        if key in ['apelido','nome','miniBio','partido','cargo','reeleicao','bancadas','cargos', 'id', 'foto']:
+        if key in ['apelido','nome','miniBio','partido','cargo','reeleicao','bancadas','cargos', 'id', 'foto','estado']:
             result[key] = response[key]
     return Response(json.dumps(result), mimetype='text/json')
 
