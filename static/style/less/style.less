@@ -36,6 +36,7 @@
 
     .media-list {
         display: table-layout;
+        border-collapse: collapse;
     }
 
     .media {
@@ -54,16 +55,15 @@
         padding-right: @padding-base-horizontal;
     }
 
-    .media-body {
-        font-size: @font-size-small;
+    .media:hover {
+        cursor: pointer;
+        .candidate-profile {
+            border: 2px solid @brand-primary;
+        }
     }
 
-    .media-selected * {
-        background-color: red;
-    }
-    .media-hovered * {
-        cursor: pointer;
-        background-color: blue;
+    .media-body {
+        font-size: @font-size-small;
     }
 }
 
@@ -72,6 +72,14 @@
 
     .candidate-profile {
         margin: auto;
+        cursor: pointer;
+        .candidate-profile {
+            border: 2px solid @brand-danger;
+        }
+    }
+
+    .candidate-profile:hover {
+
     }
 
     .nome {

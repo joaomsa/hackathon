@@ -6191,6 +6191,7 @@ button.close {
 }
 .profiles.well .media-list {
   display: table-layout;
+  border-collapse: collapse;
 }
 .profiles.well .media {
   display: table-row;
@@ -6205,21 +6206,24 @@ button.close {
 .profiles.well .media-object {
   padding-right: 12px;
 }
+.profiles.well .media:hover {
+  cursor: pointer;
+}
+.profiles.well .media:hover .candidate-profile {
+  border: 2px solid #428bca;
+}
 .profiles.well .media-body {
   font-size: 12px;
-}
-.profiles.well .media-selected * {
-  background-color: red;
-}
-.profiles.well .media-hovered * {
-  cursor: pointer;
-  background-color: blue;
 }
 .candidato-tbl {
   position: relative;
 }
 .candidato-tbl .candidate-profile {
   margin: auto;
+  cursor: pointer;
+}
+.candidato-tbl .candidate-profile .candidate-profile {
+  border: 2px solid #d9534f;
 }
 .candidato-tbl .nome {
   text-align: center;

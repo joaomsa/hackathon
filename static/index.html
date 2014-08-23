@@ -19,8 +19,8 @@
           <input class="form-control" type="text" ng-model="name" debounce="500" />
 
           <div class="profiles well">
-            <ul class="media-list" ng-repeat="c in candidates">
-              <li class="media">
+            <ul class="media-list">
+              <li class="media" ng-repeat="c in candidates">
                 <div class="media-object" ng-click="select(c['id'])">
                   <div class="candidate-profile" style="background-image: url({{ c['foto'] }})"></div>
                 </div>
