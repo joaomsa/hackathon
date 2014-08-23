@@ -66,6 +66,7 @@ def historico(id):
 
     return Response(result, mimetype='text/json')
 
+
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def assets(path):
