@@ -34,7 +34,13 @@
             });
 
             $scope.$watch('candidates', function(){
-                console.log($scope.candidates);
+                setTimeout(function(){
+                    for (var i = 0; i < $scope.candidates.length; i++){
+                        plotData("votenaweb_" + $scope.candidates[i].id, 
+                                $scope.candidates[i].projeto.up, 
+                                $scope.candidates[i].projeto.down)
+                    }
+                }, 100);
             }, true);
         }
     ]);
@@ -94,5 +100,35 @@
             };
         }
     ]);
+
+    function plotData(canvas_id, up_vote, down_vote) {
+        var canvas;
+        var ctx;
+        var lastend = 0;
+        var myTotal = down_vote + up_vote;
+
+        canvas = document.getElementById(canvas_id);
+        ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        var myData = [up_vote, down_vote];
+        var myColor = ["rgb(154, 191, 114)","#D95B43"];
+
+        for (var i = 0; i < myData.length; i++) {
+            ctx.fillStyle = myColor[i];
+            ctx.beginPath();
+            ctx.moveTo(200,150);
+            ctx.arc(200,150,150,lastend,lastend+
+                (Math.PI*2*(myData[i]/myTotal)),false);
+                ctx.lineTo(200,150);
+                ctx.fill();
+                lastend += Math.PI*2*(myData[i]/myTotal);
+        }
+
+        ctx.fillStyle = "white";
+        ctx.font = "20px Helvetica";
+        if(up_vote > down_vote) ctx.fillText((up_vote/myTotal * 100 | 0) + " %", 180, 230);
+        else ctx.fillText((down_vote/myTotal * 100 | 0) + " %", 180, 80);
+    }
 
 }());
