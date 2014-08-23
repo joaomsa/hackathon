@@ -17,7 +17,7 @@ def projeto():
         with conn.cursor() as cur:
             cur.execute("SELECT data FROM vote_na_web WHERE id = %s", [id])
             row = cur.fetchall()
-            return Response(row[0], mimetype='text/json')
+            return Response(row[0], mimetype='application/json')
 
 @app.route("/search")
 def search_name():
@@ -45,7 +45,7 @@ def candidatura():
     for key in response:
         if key in ['apelido','nome','miniBio','partido','cargo','reeleicao','bancadas','cargos', 'id', 'foto','estado']:
             result[key] = response[key]
-    return Response(json.dumps(result), mimetype='text/json')
+    return Response(json.dumps(result), mimetype='application/json')
 
 @app.route("/historico")
 def historico():
@@ -87,7 +87,7 @@ def historico():
         faltas_com = None
         faltas_plen = None
     return Response(json.dumps({'candidaturas': candidaturas, 'processos': processos,
-                            'faltas_plen': faltas_plen, 'faltas_com': faltas_com}), mimetype='text/json')
+                            'faltas_plen': faltas_plen, 'faltas_com': faltas_com}), mimetype='application/json')
 
 
 @app.route("/", defaults={"path": "index.html"})
