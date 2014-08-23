@@ -20,9 +20,9 @@ def search_name():
 @app.route("/candidato/<string:id>")
 def candidato(id):
     try:
-	   conn = psycopg2.connect(app.config['pg_dsn'])
+        conn = psycopg2.connect(app.config['pg_dsn'])
     except:
-	   return
+        return
 
     cur = conn.cursor()
     cur.execute("""SELECT data->>'nome' from candidatos_json where data->>'nome' ilike '%dilma%';""")

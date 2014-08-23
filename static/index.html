@@ -16,33 +16,31 @@
       <!-- candidates -->
       <div class="row" ng-controller="SearchCtrl">
         <div class="col-xs-2">
-          <input class="form-control" type="text" ng-model="query"/>
+          <input class="form-control" type="text" ng-model="name" debounce="500" />
 
           <div class="profiles well">
-            <ul class="media-list">
+            <ul class="media-list" ng-repeat="c in candidates">
               <li class="media">
-                <div class="media-object">
+                <div class="media-object" ng-click="select(c['id'])">
                   <div class="candidate-profile"
-                      style="background-image: url(http://blogs.ne10.uol.com.br/jamildo/wp-content/uploads/2014/06/dilma-rousseff_presidente.jpg)"></div>
+                      style="background-image: url({{ c['foto'] }})"></div>
                 </div>
                 <div class="media-body">
-                  Dilma
+                  {{ c['nome'] }}
                 </div>
               </li>
           </div>
         </div>
         <div class="col-xs-10">
-          <div class="candidato-tbl">
+          <div class="candidato-tbl" ng-controller="VsCtrl">
 
             <div class="candidato-row">
-              <div class="candidato-cell">
-                Dilma
-              </div>
-              <div class="candidato-cell">
-                Aecio
+              <div class="candidato-cell" ng-repeat="c in candidates">
+                {{ c['nome'] }}
               </div>
             </div>
 
+            <!--
             <div class="candidato-row">
               <div class="candidato-cell">
                 Blah blah blah
@@ -60,6 +58,7 @@
                 Aecio
               </div>
             </div>
+            -->
           </div>
 
         </div>
