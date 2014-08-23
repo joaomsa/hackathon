@@ -1,6 +1,10 @@
 import psycopg2
 import json
-from flask import Flask, send_from_directory, request
+import requests
+from flask import Flask, send_from_directory, request, Response
+
+APP_TOKEN = "vQtVQakNXGqZ"
+APP_SECRET = "ArbNezEPBRPF"
 
 app = Flask(__name__)
 app.config["PROPAGATE_EXCEPTIONS"] = True
@@ -17,17 +21,50 @@ def search_name():
             results = [{'id': row[2], 'nome': row[1], 'foto': row[3]} for row in rows]
             return json.dumps(results)
 
-@app.route("/candidato/<string:id>")
-def candidato(id):
-    try:
-	   conn = psycopg2.connect(app.config['pg_dsn'])
-    except:
-	   return
+@app.route("/candidatura")
+def candidatura(id):
+    api_url = "http://api.transparencia.org.br/api/v1/candidatos"
+    parameters = {}
+    header = {"APP-token": APP_TOKEN}
+    r = requests.get(
+        "/".join([api_url,id]),
+        params=parameters,
+        headers=header
+    )
+    response = json.loads(r.text)
+    result = {}
+    for key in response:
+        if key in ['apelido','miniBio','partido','cargo','reeleicao','bancadas','cargos']:
+            result[key] = response[key]
+    return Response(result, mimetype='text/json')
 
-    cur = conn.cursor()
-    cur.execute("""SELECT data->>'nome' from candidatos_json where data->>'nome' ilike '%dilma%';""")
-    rows = cur.fetchall()
-    return rows[0]
+@app.route("/historico")
+def historico(id):
+    api_url = "http://api.transparencia.org.br/api/v1/candidatos"
+    parameters = {}
+    header = {"APP-token": APP_TOKEN}
+    r = requests.get(
+        "/".join([api_url,id,"candidaturas"]),
+        params=parameters,
+        headers=header
+    )
+    response = json.loads(r.text)
+    candidaturas = []
+    for candidatura in response:
+        candidaturas.append([candidatura['anoEleitoral'],candidatura['cargo'], candidatura['resultado'])
+
+    api_url = "http://api.transparencia.org.br/api/v1/candidatos"
+    parameters = {}
+    header = {"APP-token": APP_TOKEN}
+    r = requests.get(
+        "/".join([api_url,id,"estatisticas"]),
+        params=parameters,
+        headers=header
+    )
+    response = json.loads(r.text)
+    processos = []
+
+    return Response(result, mimetype='text/json')
 
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
