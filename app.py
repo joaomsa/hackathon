@@ -10,6 +10,14 @@ app = Flask(__name__)
 app.config["PROPAGATE_EXCEPTIONS"] = True
 app.config["pg_dsn"] = "dbname='transparencia' user='joaosa' host='ec2-54-191-195-234.us-west-2.compute.amazonaws.com' password='123456' port=19000"
 
+@app.route("/projeto")
+def projeto():
+    id = request.args.get('id')
+    with psycopg2.connect(app.config['pg_dsn']) as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT data FROM vote_na_web WHERE id = %s", [id])
+            row = cur.fetchall()
+            return Response(row[0], mimetype='text/json') 
 
 @app.route("/search")
 def search_name():

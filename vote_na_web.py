@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import json
-#import psycopg2
+import psycopg2
 
 def get_projects_from_url(id, url):
     r = requests.get(url)
@@ -45,15 +45,11 @@ def submit_project_data(id, url):
     print j
 
     # dumping it
-#    cur = conn.cursor()
-#    cur.execute('INSERT INTO vote_na_web VALUES(' + id + ',' + data + ")")
-    
+    cur = conn.cursor()
+    cur.execute('INSERT INTO vote_na_web VALUES(%s, %s)', [id, j])
 
 
-#conn = psycopg2.connect("dbname='transparencia' user='joaosa' host='ec2-54-191-195-234.us-west-2.compute.amazonaws.com ' password='123456'")
-
-
-#### TODO fazer script que coleta a pagina do candidato pelo nome
+conn = psycopg2.connect("port=19000 dbname='transparencia' user='joaosa' host='ec2-54-191-195-234.us-west-2.compute.amazonaws.com' password='123456'")
 
 # Dilma
 submit_project_data(1511105,'http://www.votenaweb.com.br/politicos/dilma.rousseff')
@@ -66,3 +62,5 @@ submit_project_data(1511083, 'http://www.votenaweb.com.br/politicos/marina.silva
 
 # Luciana 
 submit_project_data(1511080, 'http://www.votenaweb.com.br/politicos/luciana.genro')
+
+conn.commit()
