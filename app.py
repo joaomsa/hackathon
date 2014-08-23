@@ -1,6 +1,7 @@
 import psycopg2
 import json
 import requests
+import vote_na_web
 from flask import Flask, send_from_directory, request, Response
 
 APP_TOKEN = "vQtVQakNXGqZ"
@@ -15,7 +16,14 @@ def search_name():
     name = request.args.get('nome')
     with psycopg2.connect(app.config['pg_dsn']) as conn:
         with conn.cursor() as cur:
-            cur.execute("select similarity(%s, data->>'nome') as sim , data->>'nome' as nome , data->>'id' as id, data->>'foto' as foto from candidatos_json order by sim desc limit 10", [name])
+            cur.execute("""
+                    select
+                        similarity(%s, data->>'nome') as sim ,
+                        data->>'nome' as nome , data->>'id' as id,
+                        data->>'foto' as foto
+                    from candidatos_json
+                    where data->>'cargo' = 'Presidente'
+                    order by sim desc limit 10""", [name])
             rows = cur.fetchall()
             results = [{'id': row[2], 'nome': row[1], 'foto': row[3]} for row in rows]
             return json.dumps(results)
@@ -30,11 +38,7 @@ def canditadura():
     return Response(json.dumps(data), mimetype='application/json')
 
 def projeto(id):
-    with psycopg2.connect(app.config['pg_dsn']) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT data FROM vote_na_web WHERE id = %s", [id])
-            row = cur.fetchall()
-            return json.loads(row[0][0])
+    return vote_na_web.get_project_data(id)
 
 def bio(id):
     with psycopg2.connect(app.config['pg_dsn']) as conn:

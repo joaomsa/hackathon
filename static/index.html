@@ -19,8 +19,8 @@
           <input class="form-control" type="text" ng-model="name" debounce="500" />
 
           <div class="profiles well">
-            <ul class="media-list" ng-repeat="c in candidates">
-              <li class="media">
+            <ul class="media-list">
+              <li class="media" ng-repeat="c in candidates">
                 <div class="media-object" ng-click="select(c['id'])">
                   <div class="candidate-profile" style="background-image: url({{ c['foto'] }})"></div>
                 </div>
@@ -35,13 +35,13 @@
 
             <div class="candidato-row">
               <div class="candidato-cell" ng-repeat="c in candidates">
-                <div class="candidate-profile" style="background-image: url({{ c.candidatura['foto'] }})"></div>
+                <div class="candidate-profile" style="background-image: url({{ c.bio['foto'] }})"></div>
               </div>
             </div>
 
             <div class="candidato-row">
               <div class="candidato-cell nome bg-danger" ng-repeat="c in candidates">
-                <h2>"{{ c.candidatura['apelido'] }}"</h2>
+                <h2>{{ c.bio['apelido'] }}</h2>
               </div>
             </div>
 
@@ -49,14 +49,14 @@
               <div class="candidato-cell bio" ng-repeat="c in candidates">
                 <p>
                   <strong>
-                    {{ c.candidatura["reeleicao"] ?
-                      "Atual campeão o cinturão de " + c.candidatura['cargo'] + " do " + c.candidatura['estado'] :
-                      "Desafiante to titulo de " + c.candidatura['cargo'] + " do " +  c.candidatura['estado'] }}
+                    {{ c.bio["reeleicao"] ?
+                      "Atual " + c.bio['cargo'] + " do " + c.bio['estado'] :
+                      "Desafiante to titulo de " + c.bio['cargo'] + " do " +  c.bio['estado'] }}
                   </strong>
                 </p>
-                <p ng-show="c.candidatura['bancadas']">
+                <p ng-show="c.bio['bancadas']">
                   <span>
-                    Representando a galera: {{ c.candidatura['bancadas'] }}
+                    Representando a galera: {{ c.bio['bancadas'] }}
                   <span>
                 </p>
               </div>
