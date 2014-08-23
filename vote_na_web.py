@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
 import json
-import psycopg2
 
 def get_projects_from_url(id, url):
     r = requests.get(url)
@@ -42,25 +41,16 @@ def submit_project_data(id, url):
         project_list = get_project_list(projects)
         data = { 'num_projects' : count, 'up' : up, 'down' : down, 'url' : url, 'projects' : project_list }
     j = json.dumps(data)
-    print j
+    return j
 
-    # dumping it
-    cur = conn.cursor()
-    cur.execute('INSERT INTO vote_na_web VALUES(%s, %s)', [id, j])
-
-
-conn = psycopg2.connect("port=19000 dbname='transparencia' user='joaosa' host='ec2-54-191-195-234.us-west-2.compute.amazonaws.com' password='123456'")
-
-# Dilma
-submit_project_data(1511105,'http://www.votenaweb.com.br/politicos/dilma.rousseff')
-
-# Aecio
-submit_project_data(1511086, 'http://www.votenaweb.com.br/politicos/aecio.neves')
-
-# Marina silva
-submit_project_data(1511083, 'http://www.votenaweb.com.br/politicos/marina.silva')
-
-# Luciana 
-submit_project_data(1511080, 'http://www.votenaweb.com.br/politicos/luciana.genro')
-
-conn.commit()
+def get_project_data(id):
+    dic = { 
+        1511105 : 'http://www.votenaweb.com.br/politicos/dilma.rousseff',
+        1511086 : 'http://www.votenaweb.com.br/politicos/aecio.neves',
+        1511083 : 'http://www.votenaweb.com.br/politicos/marina.silva',
+        1511080 : 'http://www.votenaweb.com.br/politicos/luciana.genro'
+        }
+    try:
+        return submit_project_data(id, dic[id])
+    except KeyError:
+        return None
