@@ -16,7 +16,16 @@ def search_name():
     name = request.args.get('nome')
     with psycopg2.connect(app.config['pg_dsn']) as conn:
         with conn.cursor() as cur:
-            cur.execute("select similarity(%s, data->>'nome') as sim , data->>'nome' as nome , data->>'id' as id, data->>'foto' as foto from candidatos_json order by sim desc limit 10", [name])
+            cur.execute("""
+                    select
+                        similarity(%s, data->>'nome') as sim ,
+                        data->>'nome' as nome , data->>'id' as id,
+                        data->>'foto' as foto,
+                        cast(data->>'previsao' as float) as prev
+                    from candidatos_json
+                    where data->>'cargo' = 'Presidente'
+                    order by sim desc, prev desc
+                    limit 10""", [name])
             rows = cur.fetchall()
             results = [{'id': row[2], 'nome': row[1], 'foto': row[3]} for row in rows]
             return json.dumps(results)
@@ -34,59 +43,37 @@ def projeto(id):
     return vote_na_web.get_project_data(id)
 
 def bio(id):
-    id = request.args.get('id')
-    api_url = "http://api.transparencia.org.br/api/v1/candidatos"
-    parameters = {}
-    header = {"APP-token": APP_TOKEN}
-    r = requests.get(
-        "/".join([api_url,id]),
-        params=parameters,
-        headers=header
-    )
-    response = json.loads(r.text)
-    result = {}
-    for key in response:
-        if key in ['apelido','nome','miniBio','partido','cargo','reeleicao','bancadas','cargos', 'id', 'foto','estado']:
-            result[key] = response[key]
+    with psycopg2.connect(app.config['pg_dsn']) as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT data->>'id', data->>'apelido', data->>'nome', data->>'miniBio', data->>'partido', \
+                data->>'reeleicao', data->>'bancadas', data->>'cargos', data->>'foto', \
+                data->>'estado' from candidatos_json where data->>'id' =%s;", [id])
+            rows = cur.fetchall()
+            row = rows[0]
+            result = {'id': row[0], 'apelido': row[1], 'nome': row[2], 'miniBio': row[3], 'partido':row[4],
+                    'reeleicao': row[5], 'bancadas':row[6], 'cargos': row[7], 'foto': row[8]}
     return result
 
 def historico(id):
-    api_url = "http://api.transparencia.org.br/api/v1/candidatos"
-    parameters = {}
-    header = {"APP-token": APP_TOKEN}
-    r = requests.get(
-        "/".join([api_url,id,"candidaturas"]),
-        params=parameters,
-        headers=header
-    )
-    response = json.loads(r.text)
-    candidaturas = []
-    for candidatura in response:
-        candidaturas.append([candidatura['anoEleitoral'],candidatura['cargo'], candidatura['resultado']])
 
-    r = requests.get(
-        "/".join([api_url,id]),
-        params=parameters,
-        headers=header
-    )
-    response = json.loads(r.text)
-    if response.has_key('processos'):
-        processos = response['processos']
-    else:
-        processos = None
-
-    r = requests.get(
-        "/".join([api_url,id,'estatisticas']),
-        params=parameters,
-        headers=header
-    )
-    response = json.loads(r.text)
-    if response:
-        faltas_com = response['faltas_com']
-        faltas_plen = response['faltas_plen']
-    else:
-        faltas_com = None
-        faltas_plen = None
+    with psycopg2.connect(app.config['pg_dsn']) as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT data->>'anoEleitoral', data->>'cargo', data->>'resultado' from (select id, json_array_elements(data) as data from candidaturas_json) as subq where id = %s;", [id])
+            rows = cur.fetchall()
+            candidaturas = []
+            for candidatura in rows:
+                candidaturas.append([candidatura[0],candidatura[1], candidatura[2]])
+            cur.execute("SELECT data->>'anoEleitoral', data->>'cargo', data->>'resultado' from (select id, json_array_elements(data) as data from estatisticas_json) as subq where id =%s;", [id])
+            rows = cur.fetchall()
+            if rows:
+                faltas_com = rows['faltas_com']
+                faltas_plen = rows['faltas_plen']
+            else:
+                faltas_com = None
+                faltas_plen = None
+            cur.execute("SELECT data->>'processos' from candidatos_json where data->>'id' =%s;", [id])
+            rows = cur.fetchall()
+            processos = [row[0] for row in rows]
     return { 'candidaturas': candidaturas, 'processos': processos,
             'faltas_plen': faltas_plen, 'faltas_com': faltas_com }
 
