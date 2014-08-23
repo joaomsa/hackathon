@@ -58,12 +58,12 @@ def historico(id):
 
     with psycopg2.connect(app.config['pg_dsn']) as conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT data->>'anoEleitoral', data->>'cargo', data->>'resultado' from (select id, json_array_elements(data) as data from candidaturas_json) as subq where data->>'id' =%s;", [id])
+            cur.execute("SELECT data->>'anoEleitoral', data->>'cargo', data->>'resultado' from (select id, json_array_elements(data) as data from candidaturas_json) as subq where id = %s;", [id])
             rows = cur.fetchall()
             candidaturas = []
             for candidatura in rows:
                 candidaturas.append([candidatura[0],candidatura[1], candidatura[2]])
-            cur.execute("SELECT data->>'anoEleitoral', data->>'cargo', data->>'resultado' from (select id, json_array_elements(data) as data from estatisticas_json) as subq where data->>'id' =%s;", [id])
+            cur.execute("SELECT data->>'faltasPlenario', data->>'faltasComissoes' from (select id, json_array_elements(data) as data from estatisticas_json) as subq where id =%s;", [id])
             rows = cur.fetchall()
             if rows:
                 faltas_com = rows['faltas_com']
@@ -76,6 +76,7 @@ def historico(id):
             processos = [row[0] for row in rows]
     return { 'candidaturas': candidaturas, 'processos': processos,
             'faltas_plen': faltas_plen, 'faltas_com': faltas_com }
+
 
 
 @app.route("/", defaults={"path": "index.html"})
