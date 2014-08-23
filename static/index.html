@@ -80,12 +80,7 @@
             </div>
 
             <div class="candidato-row">
-              <div class="candidato-cell map" ng-repeat="c in candidates">
-              </div>
-            </div>
-
-            <div class="candidato-row">
-              <div class="candidato-cell map" ng-repeat="c in candidates">
+              <div class="candidato-cell votenaweb" ng-repeat="c in candidates">
                 <h5>Projetos</h5>
                 <p ng-repeat="p in c.projeto['projects'] "> 
                   <strong>{{ p[0] }}</strong>
@@ -101,6 +96,12 @@
               </div>
             </div>
 
+            <div class="candidato-row">
+              <div class="candidato-cell donations" ng-repeat="c in candidates">
+                <div id="donations_{{ c['id'] }}"></div>
+              </div>
+            </div>
+
         </div>
         </div>
     </div>
@@ -108,7 +109,7 @@
 
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
   <script type="text/javascript" src="bower_components/ng-debounce/angular-debounce.js"></script>
-  <script type="text/javascript" src="bower_components/pleasejs/Please.js"></script>
+  <script type="text/javascript" src="bower_components/d3/d3.js"></script>
   <script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>

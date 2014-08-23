@@ -6167,6 +6167,15 @@ body {
   background-color: #222222;
   color: #777777;
 }
+.x text {
+  fill: transparent;
+}
+.x text:hover {
+  fill: #eeeeee;
+}
+.bar {
+  fill: rgba(153, 0, 0, 0.8);
+}
 h1,
 h2,
 h3,

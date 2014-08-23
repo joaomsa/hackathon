@@ -17,6 +17,7 @@
     "bootstrap": "~3.2.0",
     "angular": "~1.2.22",
     "ng-debounce": "~0.1.4",
-    "pleasejs": "*"
+    "pleasejs": "*",
+    "d3": "~3.4.11"
   }
 }
