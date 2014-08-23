@@ -3,6 +3,8 @@
 
 .candidato-tbl {
     display: table;
+    width: 100%;
+    //table-layout: fixed;
     margin: auto;
 }
 
@@ -13,4 +15,13 @@
 .candidato-cell {
     display: table-cell;
     padding: 0 10px;
+    background-color: gray;
+    width: 100px;
+}
+
+.candidato-search {
+    &:extend(.candidato-cell);
+
+    //height: 100%;
+    background-color: salmon;
 }
