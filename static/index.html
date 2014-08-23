@@ -22,8 +22,7 @@
             <ul class="media-list" ng-repeat="c in candidates">
               <li class="media">
                 <div class="media-object" ng-click="select(c['id'])">
-                  <div class="candidate-profile"
-                      style="background-image: url({{ c['foto'] }})"></div>
+                  <div class="candidate-profile" style="background-image: url({{ c['foto'] }})"></div>
                 </div>
                 <div class="media-body">
                   {{ c['nome'] }}
@@ -36,30 +35,32 @@
 
             <div class="candidato-row">
               <div class="candidato-cell" ng-repeat="c in candidates">
-                {{ c.candidatura['nome'] }}
-              </div>
-            </div>
-
-            <!--
-            <div class="candidato-row">
-              <div class="candidato-cell">
-                Blah blah blah
-              </div>
-              <div class="candidato-cell">
-                Blah blah blah
+                <div class="candidate-profile" style="background-image: url({{ c.candidatura['foto'] }})"></div>
               </div>
             </div>
 
             <div class="candidato-row">
-              <div class="candidato-cell">
-                Dilma
-              </div>
-              <div class="candidato-cell">
-                Aecio
+              <div class="candidato-cell nome bg-danger" ng-repeat="c in candidates">
+                <h2>"{{ c.candidatura['apelido'] }}"</h2>
               </div>
             </div>
-            -->
-          </div>
+
+            <div class="candidato-row">
+              <div class="candidato-cell bio" ng-repeat="c in candidates">
+                <p>
+                  <strong>
+                    {{ c.candidatura["reeleicao"] ?
+                      "Atual campeão o cinturão de " + c.candidatura['cargo'] + " do " + c.candidatura['estado'] :
+                      "Desafiante to titulo de " + c.candidatura['cargo'] + " do " +  c.candidatura['estado'] }}
+                  </strong>
+                </p>
+                <p ng-show="c.candidatura['bancadas']">
+                  <span>
+                    Representando a galera: {{ c.candidatura['bancadas'] }}
+                  <span>
+                </p>
+              </div>
+            </div>
 
         </div>
         </div>

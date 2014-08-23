@@ -3,8 +3,6 @@
 
     var app = angular.module("boxepolitico", ['debounce']);
 
-    app.value("api_token", "ArbNezEPBRPF");
-
     app.controller("SearchCtrl", [ "$scope", "$http", "CandidateSrv",
         function($scope, $http, CandidateSrv){
             $scope.name = "";
@@ -21,8 +19,8 @@
             });
 
             $scope.select = function(id){
-                CandidateSrv.add(id);
-                //CandidateSrv.add(id);
+                if (!CandidateSrv.isSelected(id))
+                    CandidateSrv.add(id);
             }
         }
     ]);

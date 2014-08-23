@@ -1,6 +1,5 @@
 @import "../../bower_components/bootstrap/less/bootstrap.less";
 
-
 .candidato-tbl {
     display: table;
     width: 100%;
@@ -14,16 +13,12 @@
 
 .candidato-cell {
     display: table-cell;
-    padding: 0 10px;
-    background-color: gray;
+    padding: 5px 10px;
     width: 100px;
 }
 
 .candidato-search {
     &:extend(.candidato-cell);
-
-    //height: 100%;
-    background-color: salmon;
 }
 
 .candidate-profile {
@@ -69,5 +64,17 @@
     .media-hovered * {
         cursor: pointer;
         background-color: blue;
+    }
+}
+
+.candidato-tbl {
+    position: relative;
+
+    .candidate-profile {
+        margin: auto;
+    }
+
+    .nome {
+        text-align: center;
     }
 }
