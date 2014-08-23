@@ -22,7 +22,8 @@ def search_name():
             return json.dumps(results)
 
 @app.route("/candidatura")
-def candidatura(id):
+def candidatura():
+    id = request.args.get('id')
     api_url = "http://api.transparencia.org.br/api/v1/candidatos"
     parameters = {}
     header = {"APP-token": APP_TOKEN}
@@ -34,12 +35,13 @@ def candidatura(id):
     response = json.loads(r.text)
     result = {}
     for key in response:
-        if key in ['apelido','miniBio','partido','cargo','reeleicao','bancadas','cargos']:
+        if key in ['apelido','nome','miniBio','partido','cargo','reeleicao','bancadas','cargos']:
             result[key] = response[key]
-    return Response(result, mimetype='text/json')
+    return Response(json.dumps(result), mimetype='text/json')
 
 @app.route("/historico")
-def historico(id):
+def historico():
+    id = request.args.get('id')
     api_url = "http://api.transparencia.org.br/api/v1/candidatos"
     parameters = {}
     header = {"APP-token": APP_TOKEN}
@@ -51,20 +53,33 @@ def historico(id):
     response = json.loads(r.text)
     candidaturas = []
     for candidatura in response:
-        candidaturas.append([candidatura['anoEleitoral'],candidatura['cargo'], candidatura['resultado'])
+        candidaturas.append([candidatura['anoEleitoral'],candidatura['cargo'], candidatura['resultado']])
 
-    api_url = "http://api.transparencia.org.br/api/v1/candidatos"
-    parameters = {}
-    header = {"APP-token": APP_TOKEN}
     r = requests.get(
-        "/".join([api_url,id,"estatisticas"]),
+        "/".join([api_url,id]),
         params=parameters,
         headers=header
     )
     response = json.loads(r.text)
-    processos = []
+    if response.has_key('processos'):
+        processos = response['processos']
+    else:
+        processos = None
 
-    return Response(result, mimetype='text/json')
+    r = requests.get(
+        "/".join([api_url,id,'estatisticas']),
+        params=parameters,
+        headers=header
+    )
+    response = json.loads(r.text)
+    if response:
+        faltas_com = response['faltas_com']
+        faltas_plen = response['faltas_plen']
+    else:
+        faltas_com = None
+        faltas_plen = None
+    return Response(json.dumps({'candidaturas': candidaturas, 'processos': processos,
+                            'faltas_plen': faltas_plen, 'faltas_com': faltas_com}), mimetype='text/json')
 
 
 @app.route("/", defaults={"path": "index.html"})
