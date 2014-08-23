@@ -40,15 +40,14 @@ def submit_project_data(id, url):
         count, up, down = process_project_to_get_votes(projects)
         project_list = get_project_list(projects)
         data = { 'num_projects' : count, 'up' : up, 'down' : down, 'url' : url, 'projects' : project_list }
-    j = json.dumps(data)
-    return j
+    return data
 
 def get_project_data(id):
-    dic = { 
-        1511105 : 'http://www.votenaweb.com.br/politicos/dilma.rousseff',
-        1511086 : 'http://www.votenaweb.com.br/politicos/aecio.neves',
-        1511083 : 'http://www.votenaweb.com.br/politicos/marina.silva',
-        1511080 : 'http://www.votenaweb.com.br/politicos/luciana.genro'
+    dic = {
+        "1511105" : 'http://www.votenaweb.com.br/politicos/dilma.rousseff',
+        "1511086" : 'http://www.votenaweb.com.br/politicos/aecio.neves',
+        "1511083" : 'http://www.votenaweb.com.br/politicos/marina.silva',
+        "1511080" : 'http://www.votenaweb.com.br/politicos/luciana.genro'
         }
     try:
         return submit_project_data(id, dic[id])
