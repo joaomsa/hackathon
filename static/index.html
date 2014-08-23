@@ -6,6 +6,7 @@
     <title>Boxe Politico</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Black+Ops+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style/css/style.css">
   </head>
   <body ng-app="boxepolitico">
@@ -56,14 +57,14 @@
                 </p>
 
                 <p ng-show="c.bio['miniBio']">
-                  <h6>Bio</h6>
+                  <h5>Bio</h5>
                   <span>
                     {{ c.bio['miniBio'] }}
                   <span>
                 </p>
 
                 <p ng-show="c.bio['cargos']">
-                  <h6>Cargos</h6>
+                  <h5>Cargos</h5>
                   <span>
                     {{ c.bio['cargos'] }}
                   <span>
@@ -75,16 +76,23 @@
                   <span>
                 </p>
 
-                <p ng-show="c.projetos">
-                  <span>
-                  </span>
-                </p>
-
               </div>
             </div>
 
             <div class="candidato-row">
               <div class="candidato-cell map" ng-repeat="c in candidates">
+              </div>
+            </div>
+
+            <div class="candidato-row">
+              <div class="candidato-cell map" ng-repeat="c in candidates">
+                <h5>Projetos</h5>
+                <p ng-repeat="p in c.projeto['projects'] "> 
+                  <strong>{{ p[0] }}</strong>
+                  {{ p[1] }}
+                </p>
+                <div  ng-show="c.projeto">
+                </div>
                 <h6>Aprovação do vote na web</h6>
                 <div style="margin: auto;">
                   <canvas id="votenaweb_{{ c['id'] }}" width="400" height="300">
