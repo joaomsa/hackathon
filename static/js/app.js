@@ -159,6 +159,8 @@
             .ticks(10,"$,");
 
 
+        d3.select("#" + div_id).select("svg").remove();
+
         var svg = d3.select("#" + div_id).append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)

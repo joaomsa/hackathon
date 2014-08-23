@@ -55,6 +55,8 @@ def bio(id):
     return result
 
 def historico(id):
+    pass
+"""
 
     with psycopg2.connect(app.config['pg_dsn']) as conn:
         with conn.cursor() as cur:
@@ -76,6 +78,7 @@ def historico(id):
             processos = [row[0] for row in rows]
     return { 'candidaturas': candidaturas, 'processos': processos,
             'faltas_plen': faltas_plen, 'faltas_com': faltas_com }
+"""
 
 
 

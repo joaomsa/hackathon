@@ -6241,6 +6241,8 @@ h6 {
   position: relative;
 }
 .candidato-tbl .candidate-profile {
+  height: 100px;
+  width: 100px;
   margin: auto;
 }
 .candidato-tbl .candidate-profile:hover {

@@ -16,7 +16,7 @@
       </div>
       <!-- candidates -->
       <div class="row" ng-controller="SearchCtrl">
-        <div class="col-xs-2">
+        <div class="col-xs-3">
           <input class="form-control" type="text" ng-model="name" debounce="500" />
 
           <div class="profiles well">
@@ -31,7 +31,7 @@
               </li>
           </div>
         </div>
-        <div class="col-xs-10">
+        <div class="col-xs-9">
           <div class="candidato-tbl" ng-controller="VsCtrl">
 
             <div class="candidato-row">
@@ -82,22 +82,23 @@
             <div class="candidato-row">
               <div class="candidato-cell votenaweb" ng-repeat="c in candidates">
                 <h5>Projetos</h5>
+                <h6>Aprovação do vote na web</h6>
+                <div style="margin: auto;">
+                  <canvas id="votenaweb_{{ c['id'] }}" width="400" height="300">
+                    </canvas>
+                </div>
                 <p ng-repeat="p in c.projeto['projects'] "> 
                   <strong>{{ p[0] }}</strong>
                   {{ p[1] }}
                 </p>
                 <div  ng-show="c.projeto">
                 </div>
-                <h6>Aprovação do vote na web</h6>
-                <div style="margin: auto;">
-                  <canvas id="votenaweb_{{ c['id'] }}" width="400" height="300">
-                    </canvas>
-                </div>
               </div>
             </div>
 
             <div class="candidato-row">
               <div class="candidato-cell donations" ng-repeat="c in candidates">
+                <h5>Principais Doadores</h5>
                 <div id="donations_{{ c['id'] }}"></div>
               </div>
             </div>
