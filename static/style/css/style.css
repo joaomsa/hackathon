@@ -6181,3 +6181,41 @@ button.close {
 .candidato-search {
   background-color: salmon;
 }
+.candidate-profile {
+  height: 54px;
+  width: 54px;
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.profiles.well {
+  overflow-y: scroll;
+  max-height: 300px;
+}
+.profiles.well .media-list {
+  display: table-layout;
+}
+.profiles.well .media {
+  display: table-row;
+  width: 100%;
+}
+.profiles.well .media > * {
+  display: table-cell;
+  vertical-align: middle;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.profiles.well .media-object {
+  padding-right: 12px;
+}
+.profiles.well .media-body {
+  font-size: 12px;
+}
+.profiles.well .media-selected * {
+  background-color: red;
+}
+.profiles.well .media-hovered * {
+  cursor: pointer;
+  background-color: blue;
+}

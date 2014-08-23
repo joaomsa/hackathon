@@ -25,3 +25,49 @@
     //height: 100%;
     background-color: salmon;
 }
+
+.candidate-profile {
+    height: 54px;
+    width: 54px;
+    border-radius: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.profiles.well {
+    overflow-y: scroll;
+    max-height: 300px;
+
+    .media-list {
+        display: table-layout;
+    }
+
+    .media {
+        display: table-row;
+        width: 100%;
+
+        & > * {
+            display: table-cell;
+            vertical-align: middle;
+            padding-top: @padding-base-vertical;
+            padding-bottom: @padding-base-vertical;
+        }
+    }
+
+    .media-object {
+        padding-right: @padding-base-horizontal;
+    }
+
+    .media-body {
+        font-size: @font-size-small;
+    }
+
+    .media-selected * {
+        background-color: red;
+    }
+    .media-hovered * {
+        cursor: pointer;
+        background-color: blue;
+    }
+}
