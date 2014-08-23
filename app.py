@@ -30,11 +30,7 @@ def canditadura():
     return Response(json.dumps(data), mimetype='application/json')
 
 def projeto(id):
-    with psycopg2.connect(app.config['pg_dsn']) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT data FROM vote_na_web WHERE id = %s", [id])
-            row = cur.fetchall()
-            return json.loads(row[0][0])
+    return vote_na_web.get_project_data(id)
 
 def bio(id):
     id = request.args.get('id')
