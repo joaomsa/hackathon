@@ -6174,12 +6174,8 @@ button.close {
 .candidato-cell,
 .candidato-search {
   display: table-cell;
-  padding: 0 10px;
-  background-color: gray;
+  padding: 5px 10px;
   width: 100px;
-}
-.candidato-search {
-  background-color: salmon;
 }
 .candidate-profile {
   height: 54px;
@@ -6218,4 +6214,13 @@ button.close {
 .profiles.well .media-hovered * {
   cursor: pointer;
   background-color: blue;
+}
+.candidato-tbl {
+  position: relative;
+}
+.candidato-tbl .candidate-profile {
+  margin: auto;
+}
+.candidato-tbl .nome {
+  text-align: center;
 }
