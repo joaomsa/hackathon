@@ -20,10 +20,12 @@ def search_name():
                     select
                         similarity(%s, data->>'nome') as sim ,
                         data->>'nome' as nome , data->>'id' as id,
-                        data->>'foto' as foto
+                        data->>'foto' as foto,
+                        cast(data->>'previsao' as float) as prev
                     from candidatos_json
                     where data->>'cargo' = 'Presidente'
-                    order by sim desc limit 10""", [name])
+                    order by sim desc, prev desc
+                    limit 10""", [name])
             rows = cur.fetchall()
             results = [{'id': row[2], 'nome': row[1], 'foto': row[3]} for row in rows]
             return json.dumps(results)

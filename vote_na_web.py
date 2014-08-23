@@ -40,9 +40,7 @@ def submit_project_data(id, url):
         count, up, down = process_project_to_get_votes(projects)
         project_list = get_project_list(projects)
         data = { 'num_projects' : count, 'up' : up, 'down' : down, 'url' : url, 'projects' : project_list }
-    j = json.dumps(data)
-    print  j
-    return j
+    return data
 
 def get_project_data(id):
     dic = {
