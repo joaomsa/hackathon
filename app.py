@@ -15,7 +15,7 @@ def projeto():
     id = request.args.get('id')
     with psycopg2.connect(app.config['pg_dsn']) as conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT data FROM vote_na_web WHERE id = %d", [id])
+            cur.execute("SELECT data FROM vote_na_web WHERE id = %s", [id])
             row = cur.fetchall()
             return Response(row[0], mimetype='text/json') 
 
