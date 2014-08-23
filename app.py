@@ -48,8 +48,8 @@ def bio(id):
                 data->>'estado' from candidatos_json where data->>'id' =%s;", [id])
             rows = cur.fetchall()
             row = rows[0]
-            result = {'id': row[0], 'apelido': row[1], 'nome': row[3], 'miniBio': row[4], 'partido':row[5],
-                    'reeleicao': row[6], 'bancadas':row[7], 'cargos': row[8], 'foto': row[9]}
+            result = {'id': row[0], 'apelido': row[1], 'nome': row[2], 'miniBio': row[3], 'partido':row[4],
+                    'reeleicao': row[5], 'bancadas':row[6], 'cargos': row[7], 'foto': row[8]}
     return result
 
 def historico(id):
